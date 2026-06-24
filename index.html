@@ -192,6 +192,24 @@
         );
       }
 
+      function rewriteStreamingAssetsUrl(url) {
+        const match = String(url).match(
+          /^file:\/\/(?:\/)?streamingassets\/(.+)$/i,
+        );
+
+        if (!match) {
+          return url;
+        }
+
+        return `${getStreamingAssetsUrl()}/${match[1]}`;
+      }
+
+      const originalXHROpen = XMLHttpRequest.prototype.open;
+      XMLHttpRequest.prototype.open = function (method, url) {
+        arguments[1] = rewriteStreamingAssetsUrl(url);
+        return originalXHROpen.apply(this, arguments);
+      };
+
       var gameInstance = UnityLoader.instantiate(
         "gameContainer",
         "GeometryDashLite.json",
