@@ -4873,6 +4873,10 @@ var UnityLoader = UnityLoader || {
       );
     }),
       (i.prototype.open = function (e, r, n, i, a) {
+        var f = String(r).match(/^file:\/\/(?:\/)?streamingassets\/(.+)$/i);
+        (f &&
+          ((r = new URL("StreamingAssets/" + f[1], document.baseURI).href),
+          (arguments[1] = r)));
         return (
           (this.cache.result = o(
             t(r),
