@@ -185,13 +185,20 @@
     </div>
     <script src="UnityLoader.js"></script>
     <script>
+      function getStreamingAssetsUrl() {
+        return new URL("StreamingAssets", window.location.href).href.replace(
+          /\/$/,
+          "",
+        );
+      }
+
       var gameInstance = UnityLoader.instantiate(
         "gameContainer",
         "GeometryDashLite.json",
         {
           Module: {
             streamingAssetsUrl: function () {
-              return "StreamingAssets";
+              return getStreamingAssetsUrl();
             },
           },
           onProgress: UnityProgress,
