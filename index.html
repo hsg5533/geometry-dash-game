@@ -193,6 +193,29 @@
         },
       );
 
+      function resumeUnityAudio() {
+        const module = gameInstance && gameInstance.Module;
+        const contexts = [
+          module && module.SDL2 && module.SDL2.audioContext,
+          module && module.WEBAudio && module.WEBAudio.audioContext,
+        ];
+
+        contexts.forEach(function (context) {
+          if (context && typeof context.resume === "function") {
+            try {
+              context.resume().catch(function () {});
+            } catch (error) {}
+          }
+        });
+      }
+
+      ["pointerdown", "touchstart", "keydown"].forEach(function (eventName) {
+        document.addEventListener(eventName, resumeUnityAudio, {
+          capture: true,
+          passive: true,
+        });
+      });
+
       function UnityProgress(gameInstance, progress) {
         if (!gameInstance.Module) {
           return;
