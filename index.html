@@ -189,6 +189,11 @@
         "gameContainer",
         "GeometryDashLite.json",
         {
+          Module: {
+            streamingAssetsUrl: function () {
+              return "StreamingAssets";
+            },
+          },
           onProgress: UnityProgress,
         },
       );
